@@ -48,11 +48,32 @@ class M_jadwal extends CI_Model
 		return $query->result();
 	}
 
+	public function monitor_getBy($ruang_sidang,$jadwal_sidang)
+	{
+		$this->db->from($this->table);
+		$this->db->where('status','masuk');
+		$this->db->where('jadwal_sidang',$jadwal_sidang);
+		$this->db->where('ruang_sidang_id',$ruang_sidang);
+		$q = $this->db->get();
+		$row = $q->row();
+		if(!empty($row))
+		{
+			$no_antrian = $row->no_antrian; //ambil antrian yg masuk
+			$this->db->where('no_antrian >= ', $no_antrian);
+		}
+		$this->db->from($this->table);
+		$this->db->order_by('no_antrian', 'asc');
+		$this->db->where('ruang_sidang_id', $ruang_sidang);
+		$this->db->where('jadwal_sidang',$jadwal_sidang);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function getByToday()
 	{
 		// return $this->db->get_where($this->table,["jadwal_sidang"=>date("Y-m-d")]);
 		$hari_ini = date("Y-m-d");
-		// $hari_ini = "2021-08-30";
+		// $hari_ini = "2021-08-19";
 		$db_sipp = $this->config->item('database_sipp','antrian_config');
 		$statement = "SELECT pj.perkara_id id, p.nomor_perkara perkara, pj.ruangan_id ruang_sidang_id, pj.ruangan ruang, p.pihak1_text penggugat, p.pihak2_text tergugat, pj.tanggal_sidang tanggal_sidang, pj.agenda agenda
 		FROM $db_sipp.perkara_jadwal_sidang AS pj, $db_sipp.perkara AS p

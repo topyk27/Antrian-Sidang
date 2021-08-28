@@ -48,6 +48,12 @@ class Jadwal extends CI_Controller
 		echo json_encode($data);
 	}
 
+	public function monitor_getBy($ruang_sidang,$jadwal_sidang)
+	{
+		$data['data_jadwal'] = $this->M_jadwal->monitor_getBy($ruang_sidang,$jadwal_sidang);
+		echo json_encode($data);
+	}
+
 	public function ambil_antrian()
 	{
 		$this->load->view('ambil');

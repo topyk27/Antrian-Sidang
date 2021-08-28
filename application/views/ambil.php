@@ -93,6 +93,7 @@
 	<script src="<?php echo base_url('asset/plugin/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
 	<script src="<?php echo base_url('asset/plugin/datatables-responsive/js/dataTables.responsive.min.js') ?>"></script>
 	<script src="<?php echo base_url('asset/plugin/datatables-responsive/js/responsive.bootstrap4.min.js') ?>"></script>
+	<?php $this->load->view("_partials/token.php") ?>
 	<script type="text/javascript">
 		<?php 
 			$this->config->load('antrian_config',TRUE);
