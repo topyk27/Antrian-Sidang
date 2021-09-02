@@ -201,7 +201,8 @@ class Setting extends CI_Controller
 					redirect('setting/sistem');
 				}
 			}
-			$this->load->view("setting/sistem");
+			$data['setting'] = $this->M_setting->getAll();
+			$this->load->view("setting/sistem",$data);
 		}
 	}
 

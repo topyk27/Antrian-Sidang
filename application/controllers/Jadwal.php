@@ -39,6 +39,7 @@ class Jadwal extends CI_Controller
 	{
 		$data['data_ruangan'] = $this->M_jadwal->getRuangan();
 		$data['nama_ruangan'] = $this->M_jadwal->getNamaRuangan($ruang_sidang);
+		$data['panggilan'] = $this->M_setting->getAll();
 		$this->load->view('antrian/masuk/index',$data);
 	}
 

@@ -8,5 +8,6 @@ $config['panggil']= 'luar'; // luar | pc
 //pc = pc ruang sidang yang berbunyi
 
 $config['print']='disable'; //enable | disable
+//print not tested
 
  ?>

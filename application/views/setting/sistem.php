@@ -44,7 +44,7 @@
 										<label for="security">Panggil Security</label>
 										<div class="row">
 											<div class="col-md-6">
-												<textarea class="form-control" name="textsecurity" rows="3" readonly></textarea>
+												<textarea class="form-control" name="textsecurity" rows="3" readonly><?php echo $setting->security; ?></textarea>
 											</div>
 											<div class="col-md-2">
 												<a href="#" id="btnSecurityUbah" class="btn btn-warning">Ubah</a>
@@ -56,7 +56,7 @@
 										<label for="buka_sidang">Buka Sidang</label>
 										<div class="row">
 											<div class="col-md-6">
-												<textarea class="form-control" name="textbukasidang" rows="3" readonly></textarea>
+												<textarea class="form-control" name="textbukasidang" rows="3" readonly><?php echo $setting->sidang; ?></textarea>
 											</div>
 											<div class="col-md-2">
 												<a href="#" id="btnSidangUbah" class="btn btn-warning">Ubah</a>
@@ -149,7 +149,7 @@
 			$("#btnSidangSimpan").click(function(){
 				let data = $("textarea[name='textbukasidang']").val();
 				$.ajax({
-					url: "<?php echo base_url('setting/save_text/security'); ?>",
+					url: "<?php echo base_url('setting/save_text/sidang'); ?>",
 					method: "POST",
 					data: {data: data},
 					dataType: "TEXT",
