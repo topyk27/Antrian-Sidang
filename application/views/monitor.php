@@ -47,7 +47,7 @@
 					<div class="col-lg-4">
 						<div class="row">
 							<div class="col-md-12">
-								<div id="mycarousel" class="carousel slide" data-ride="carousel">
+								<div id="mycarousel" class="carousel slide" data-ride="carousel"  data-interval="10000" data-pause="false">
 									<div class="carousel-inner">
 										<?php
 										function ion($n)
@@ -77,7 +77,7 @@
 										<?php $no = 1;
 										foreach ($data_ruangan as $key => $val) : ?>
 
-											<div class="carousel-item <?php echo ($no == 1) ? 'active' : ''; ?>" data-interval="5000">
+											<div class="carousel-item <?php echo ($no == 1) ? 'active' : ''; ?>">
 												<div class="card card-<?php echo ion($no); ?>">
 													<div class="card-header">
 														<h2 class="text-center">Antrian Masuk<br><?php echo $val->nama; ?></h2>
@@ -134,11 +134,11 @@
 					</div>
 
 					<div class="col-lg-8">
-						<div id="carousel-table" class="carousel slide" data-ride="carousel" style="max-height: 75vh;">
+						<div id="carousel-table" class="carousel slide" data-ride="carousel" style="max-height: 75vh;"  data-interval="10000" data-pause="false">
 							<div class="carousel-inner">
 								<?php $a = 1;
 								foreach ($data_ruangan as $key => $val) : ?>
-									<div class="carousel-item <?php echo ($a == 1) ? 'active' : ''; ?>" data-pause="false" data-interval="10000">
+									<div class="carousel-item <?php echo ($a == 1) ? 'active' : ''; ?>" >
 										<div class="card card-<?php echo ion($a); ?>">
 											<div class="card-header">
 												<h2 class="text-center">Daftar Antrian Sidang<br><?php echo $val->nama; ?></h2>
@@ -194,7 +194,7 @@
 			<div class="float-right d-none d-sm-inline">
 				<b>Version</b> <?php echo $versi; ?>
 			</div>
-			<strong class="color-change-4x">Copyright &copy; <?php echo date("Y"); ?> <a href="https://topyk27.github.io/"><?php echo ucwords($anu); ?> </a></strong>
+			<strong class="color-change-4x">Copyright &copy; <?php echo date("Y"); ?> <a href="https://topyk27.github.io/"><?php echo ucwords($anu); ?> </a> and <a href="https://responsivevoice.org/">ResponsiveVoice.JS</a> Text to Speech</strong>
 		</footer>
 	</div>
 	<!-- jQuery -->
@@ -215,17 +215,37 @@
 		<?php
 		$this->config->load('antrian_config', TRUE);
 		$panggil = $this->config->item('panggil', 'antrian_config');
+		$rsvc = $this->config->item('rsvc', 'antrian_config');
 		?>
 		<?php foreach ($data_ruangan as $key => $val) : ?>
 			jumlah_ruangan.push(<?php echo $val->id; ?>);
 			var dt_<?php echo $val->id; ?>;
 		<?php endforeach; ?>
-
+		var rsvc = <?php echo $rsvc; ?>;
 		const panggil_melalui = "<?php echo $panggil; ?>";
+		const base_url = "<?php echo base_url(); ?>";
 
+		var msg = new SpeechSynthesisUtterance();
+		var suara;
+		var myTimeout;
+		function myTimer()
+		{
+			speechSynthesis.pause();
+			speechSynthesis.resume();
+			myTimeout = setTimeout(myTimer, 10000);
+		}
+		if(rsvc==false)
+		{
+			setTimeout(() => {		
+				suara = window.speechSynthesis.getVoices();		
+				msg.voice = suara[11];	
+				msg.lang = 'in-ID';
+				msg.rate = 0.9;		
+			}, 1000);
+		}
 		function getData() {
 			$.ajax({
-				url: "<?php echo base_url('jadwal/data_monitor'); ?>",
+				url: base_url +'jadwal/data_monitor',
 				method: "GET",
 				dataType: "JSON",
 				success: function(data) {
@@ -240,7 +260,7 @@
 
 		function cek_panggilan() {
 			$.ajax({
-				url: "<?php echo base_url('jadwal/panggil'); ?>",
+				url: base_url+'jadwal/panggil',
 				method: "GET",
 				dataType: "JSON",
 				success: function(data) {
@@ -260,17 +280,31 @@
 			$("td#no_antrian_dipanggil").text(no_antrian);
 			$("td#ruangan_dipanggil").text(ruangan);
 			$("#pemanggilan").show();
-			responsiveVoice.speak(text, voice, {
-				rate: rate,
-				onend: function() {
+			if(rsvc!=false)
+			{
+				responsiveVoice.speak(text, voice, {
+					rate: rate,
+					onend: function() {
+						hapus_panggilan(id);
+					}
+				});
+			}
+			else
+			{
+				myTimeout = setTimeout(myTimer, 10000);
+				msg.text = text;
+				msg.onend = function()
+				{
+					clearTimeout(myTimeout);
 					hapus_panggilan(id);
 				}
-			});
+				speechSynthesis.speak(msg);
+			}
 		}
 
 		function hapus_panggilan(id) {
 			$.ajax({
-				url: "<?php echo base_url('jadwal/hapus_panggilan'); ?>",
+				url: base_url+'jadwal/hapus_panggilan',
 				method: "POST",
 				data: {
 					id: id
@@ -349,6 +383,7 @@
 					dt_<?php echo $val->id; ?>.columns.adjust().draw();
 				<?php endforeach; ?>
 			});
+			
 		});
 	</script>
 </body>

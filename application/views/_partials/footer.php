@@ -29,5 +29,5 @@
 	<div class="float-right d-none d-sm-block">
 	  <b>Version</b> <?php echo $versi; ?>
 	</div>
-	<strong class="color-change-4x">Copyright &copy; <?php echo date("Y"); ?> <a href="https://topyk27.github.io/"><?php echo ucwords($anu); ?> </a></strong>
+	<strong class="color-change-4x">Copyright &copy; <?php echo date("Y"); ?> <a href="https://topyk27.github.io/"><?php echo ucwords($anu); ?> </a> and <a href="https://responsivevoice.org/">ResponsiveVoice.JS</a> Text to Speech</strong>
 </footer>
