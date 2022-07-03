@@ -73,7 +73,7 @@ class M_jadwal extends CI_Model
 	{
 		// return $this->db->get_where($this->table,["jadwal_sidang"=>date("Y-m-d")]);
 		$hari_ini = date("Y-m-d");
-		// $hari_ini = "2021-08-19";
+		// $hari_ini = "2022-07-04";
 		$db_sipp = $this->config->item('database_sipp','antrian_config');
 		$statement = "SELECT pj.perkara_id id, p.nomor_perkara perkara, pj.ruangan_id ruang_sidang_id, pj.ruangan ruang, p.pihak1_text penggugat, p.pihak2_text tergugat, pj.tanggal_sidang tanggal_sidang, pj.agenda agenda
 		FROM $db_sipp.perkara_jadwal_sidang AS pj, $db_sipp.perkara AS p

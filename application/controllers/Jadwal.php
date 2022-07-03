@@ -137,7 +137,7 @@ class Jadwal extends CI_Controller
 		$var_magin_left = 10;
 		try
 		{
-			$p = printer_open('\\\192.168.2.110\POS1');
+			$p = printer_open('\\\192.168.2.187\pos58c');
 			printer_set_option($p, PRINTER_MODE, "RAW"); // mode disobek (gak ngegulung kertas)
 
 			//then the width
@@ -159,31 +159,31 @@ class Jadwal extends CI_Controller
 
 			$font = printer_create_font("Arial", 98, 37, PRINTER_FW_BOLD, false, false, false, 0);
 			printer_select_font($p, $font);
-			printer_draw_text($p, "$no_antrian", 230, 30);
+			printer_draw_text($p, $no_antrian, 230, 30);
 
 			$font = printer_create_font("Arial", 38, 10, PRINTER_FW_NORMAL, false, false, false, 0);
 			printer_select_font($p, $font);
 
-			$pen = printer_create_pen(PRINTER_PEN_SOLID, 1, "000000");
-			printer_select_pen($p, $pen);
-			printer_draw_text($p, "Ruang Sidang", 10, 130);
+			// $pen = printer_create_pen(PRINTER_PEN_SOLID, 1, "000000");
+			// printer_select_pen($p, $pen);
+			// printer_draw_text($p, "Ruang Sidang", 10, 130);
 
-			$font = printer_create_font("Arial", 98, 37, PRINTER_FW_BOLD, false, false, false, 0);
+			$font = printer_create_font("Arial", 49, 19, PRINTER_FW_BOLD, false, false, false, 0);
 			printer_select_font($p, $font);
-			printer_draw_text($p, "$ruang", 230, 110);
+			printer_draw_text($p, $ruang, 10, 130);
 
 			$font = printer_create_font("Arial", 20, 15, PRINTER_FW_NORMAL, false, false, false, 0);
 			printer_select_font($p, $font);
-			printer_draw_text($p, "$perkara",$var_magin_left, 220);
+			printer_draw_text($p, $perkara,$var_magin_left, 220);
 
 			$font = printer_create_font("Arial", 15, 12, PRINTER_FW_NORMAL, false, false, false, 0);
 			printer_select_font($p, $font);
-			printer_draw_text($p, "$jadwal",$var_magin_left, 250);
+			printer_draw_text($p, $jadwal,$var_magin_left, 250);
 			printer_draw_line($p, $var_magin_left, 270, 400, 270);
 
 			printer_draw_text($p, "Silahkan menunggu NO antrian", $var_magin_left, 290);
 			printer_draw_text($p, "Anda dipanggil kemudian", 50, 310);
-			printer_draw_text($p, "masuk ke ruang sidang $ruang", 50, 330);
+			printer_draw_text($p, "masuk ke $ruang", 50, 330);
 
 			printer_draw_text($p, "  ", $var_magin_left, 340);
 
@@ -195,6 +195,7 @@ class Jadwal extends CI_Controller
 		catch(Exception $e)
 		{
 			$response['success'] = 0;
+			$response['error'] = $e;
 		}
 
 		echo json_encode($response);

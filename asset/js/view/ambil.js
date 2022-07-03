@@ -17,17 +17,20 @@ function ambil(id,perkara,penggugat,tergugat,jadwal_sidang,agenda,ruang_sidang_i
             {
                 if(data.success)
                 {
-                    var process_cetak = cetak(data.no_antrian,perkara,jadwal_sidang,ruang_sidang);
-                    if(process_cetak=="ok")
-                    {
-                        dt_antrian.ajax.reload();
-                        $("#responSimbol").text('done');
-                        $("#modal_title").html('Nomor Antrian '+ data.no_antrian + '<br>di ' + data.ruang_sidang);
-                        $("#modal_body").text('Silahkan menunggu nomor antrian anda dipanggil');
-                        $("#modal_footer").hide();
-                        $("#ambil_modal").modal({backdrop: 'static', keyboard: false});
-                        setTimeout(function(){$("#ambil_modal").modal('hide');},5000);
-                    }
+                    cetak(data.no_antrian,perkara,jadwal_sidang,ruang_sidang);
+                    // console.log(data.no_antrian+'-'+perkara+'-'+jadwal_sidang+'-'+ruang_sidang);
+                    // var process_cetak = cetak(data.no_antrian,perkara,jadwal_sidang,ruang_sidang);
+                    // console.log('ini proses cetak'+process_cetak);
+                    // if(process_cetak=="ok")
+                    // {
+                    //     dt_antrian.ajax.reload();
+                    //     $("#responSimbol").text('done');
+                    //     $("#modal_title").html('Nomor Antrian '+ data.no_antrian + '<br>di ' + data.ruang_sidang);
+                    //     $("#modal_body").text('Silahkan menunggu nomor antrian anda dipanggil');
+                    //     $("#modal_footer").hide();
+                    //     $("#ambil_modal").modal({backdrop: 'static', keyboard: false});
+                    //     setTimeout(function(){$("#ambil_modal").modal('hide');},5000);
+                    // }
                 }
                 else
                 {
@@ -63,37 +66,49 @@ function ambil(id,perkara,penggugat,tergugat,jadwal_sidang,agenda,ruang_sidang_i
 
 function cetak(no_antrian,perkara,jadwal,ruang) {
     jadwal = jadwal.split("-");
-    jadwal = jadwal[2]+"-"+jadwal[1]+"-"+jadwal[0];
-    var a;
+    jadwal = jadwal[2]+"-"+jadwal[1]+"-"+jadwal[0];    
+    
     $.ajax({
         url: base_url+'jadwal/cetak',
-        data: {no_antrian: no_antrian, perkara: perkara, jadwal: jadwal, ruang: ruang},
-        method: "JSON",
-        dataType: "TEXT",
+        data: {
+            no_antrian: no_antrian,
+            perkara: perkara,
+            jadwal: jadwal,
+            ruang: ruang
+        },
+        method: "POST",
+        dataType: "JSON",
         beforeSend: function()
         {
             $(".loader2").show();
         },
         success: function(respon)
         {
+            
             if(respon.success==1)
             {
-                a ="ok";
+                dt_antrian.ajax.reload();
+                $("#responSimbol").text('done');
+                $("#modal_title").html('Nomor Antrian '+ no_antrian + '<br>di ' + ruang);
+                $("#modal_body").text('Silahkan menunggu nomor antrian anda dipanggil');
+                $("#modal_footer").hide();
+                $("#ambil_modal").modal({backdrop: 'static', keyboard: false});
+                setTimeout(function(){$("#ambil_modal").modal('hide');},5000);
             }
             else
             {
-                a = "ok";
+                
                 alert("Gagal cetak antrian");
             }
             $(".loader2").hide();
-            return a;
+            
         },
         error: function(err)
         {
             console.log(err);
             $(".loader2").hide();
             alert('ada yang salah, harap periksa jaringan');
-            return a;
+            
         }
     });
 }
@@ -133,18 +148,25 @@ $(document).ready(function(){
         e.preventDefault();
         var currentRow = $(this).closest('li').length ? $(this).closest('li') : $(this).closest('tr');
         var data = $("#dt_antrian").DataTable().row(currentRow).data();
-        $("#modal_title").html('Ambil antrian');
-        $("#ambil_modal").modal({backdrop: 'static', keyboard: false});
-        $("#modal_footer").show();
-        if(data['tergugat'])
+        if(typeof data !== 'undefined')
         {
-        $("#ambil_modal").find('.modal-body').html("<p>Ambil antrian nomor perkara "+data['perkara']+"<br>Penggugat : "+data['penggugat']+"<br>Tergugat : "+data['tergugat']);
+            $("#modal_title").html('Ambil antrian');
+            $("#ambil_modal").modal({backdrop: 'static', keyboard: false});
+            $("#modal_footer").show();        
+            if(data['tergugat'])
+            {
+            $("#ambil_modal").find('.modal-body').html("<p>Ambil antrian nomor perkara "+data['perkara']+"<br>Penggugat : "+data['penggugat']+"<br>Tergugat : "+data['tergugat']);
+            }
+            else
+            {
+            $("#ambil_modal").find('.modal-body').html("<p>Ambil antrian nomor perkara "+data['perkara']+"<br>Penggugat : "+data['penggugat']);
+            }
+            $("#ambil_modal").find("#ambil_button").attr("onclick", "ambil("+data['id']+",'"+data['perkara']+"','"+data['penggugat']+"','"+data['tergugat']+"','"+data['tanggal_sidang']+"','"+data['agenda']+"',"+data['ruang_sidang_id']+",'"+data['ruang']+"')");
         }
         else
         {
-        $("#ambil_modal").find('.modal-body').html("<p>Ambil antrian nomor perkara "+data['perkara']+"<br>Penggugat : "+data['penggugat']);
+            // alert('kosong');
         }
-        $("#ambil_modal").find("#ambil_button").attr("onclick", "ambil("+data['id']+",'"+data['perkara']+"','"+data['penggugat']+"','"+data['tergugat']+"','"+data['tanggal_sidang']+"','"+data['agenda']+"',"+data['ruang_sidang_id']+",'"+data['ruang']+"')");
     });
 
     setInterval(function(){
