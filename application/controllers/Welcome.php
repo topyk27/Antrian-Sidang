@@ -51,4 +51,5 @@ class Welcome extends CI_Controller {
 		$data['data'] = $this->M_jadwal->getJumlahSidang();
 		$this->load->view('welcome',$data);
 	}
+	
 }

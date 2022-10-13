@@ -427,7 +427,8 @@ $(document).ready(function() {
                 data: "penggugat"
             },
             {
-                data: "tergugat"
+                data: "tergugat",
+                render: function(data,type,row,meta){ return (data==null || data=="null") ? "" : data;}
             },
             {
                 data: "agenda"

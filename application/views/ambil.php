@@ -34,9 +34,12 @@
 			</section>
 			<section class="content">
 				<div class="container-fluid">
+					<div class="row-mb-3">
+						<p>Untung mengambil antrian silahkan klik data nomor perkara</p>
+					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<div class="card card-primary">
+							<div class="card card-primary p-3">
 								<table id="dt_antrian" class="table table-bordered table-hover">
 									<thead>
 										<tr>
@@ -61,7 +64,7 @@
 		<?php $this->load->view("_partials/footer.php") ?>
 		<?php $this->load->view("_partials/loader.php") ?>
 		<aside class="control-sidebar control-sidebar-dark"></aside>
-		<div id="ambil_modal" class="modal fade">
+		<div id="ambil_modal" class="modal fade" data-keyboard="false" data-backdrop="static">
 		  <div class="modal-dialog modal-confirm">
 		    <div class="modal-content">
 		      <div class="modal-header flex-column">

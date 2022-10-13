@@ -123,6 +123,15 @@ class Jadwal extends CI_Controller
 	{
 		echo $this->M_jadwal->hapus_panggilan();
 	}
+	
+	public function cetak_gambar($no,$ruang_sidang,$perkara)
+	{
+		$data['tanggal'] = date("d/m/Y");
+		$data['no'] = $no;
+		$data['ruang_sidang'] = str_replace("%20"," ",$ruang_sidang);
+		$data['perkara'] = str_replace("_","/",$perkara);
+		$this->load->view('cetak',$data);
+	}
 
 	public function cetak()
 	{

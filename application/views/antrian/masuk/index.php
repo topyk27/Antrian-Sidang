@@ -210,7 +210,7 @@
 			$("#sidebar_ruang_" + ruang_sidang).addClass("active");
 		});
 	</script>
-	<script src="<?php echo base_url('asset/js/view/antrian/masuk/index.min.js') ?>"></script>
+	<script src="<?php echo base_url('asset/js/view/antrian/masuk/index.min.js'); ?>"></script>
 
 </body>
 
