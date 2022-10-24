@@ -24,7 +24,7 @@
 	right: -2px;
 }
 .modal-confirm .modal-body {
-	color: #999;
+	color: #000;
 }
 .modal-confirm .modal-footer {
 	border: none;
@@ -34,7 +34,7 @@
 	padding: 10px 15px 25px;
 }
 .modal-confirm .modal-footer a {
-	color: #999;
+	color: #000;
 }		
 .modal-confirm .icon-box {
 	width: 80px;

@@ -71,6 +71,7 @@
 											<th>Nama Ruangan</th>
 											<th>Ubah</th>
 											<th>Hapus</th>
+											<th>Yang Hadir</th>
 										</tr>
 									</thead>
 									<tbody></tbody>

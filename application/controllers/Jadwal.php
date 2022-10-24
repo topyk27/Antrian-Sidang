@@ -62,9 +62,16 @@ class Jadwal extends CI_Controller
 		$this->load->view('ambil');
 	}
 
-	public function ambil_antrian_hari_ini()
+	public function ambil_antrian_hari_ini($petugas = null)
 	{
-		$data['data_jadwal'] = $this->M_jadwal->getByToday();
+		if($petugas==null)
+		{
+			$data['data_jadwal'] = $this->M_jadwal->getByToday();
+		}
+		else
+		{
+			$data['data_jadwal'] = $this->M_jadwal->getByToday(true);
+		}
 		echo json_encode($data);
 	}
 

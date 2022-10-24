@@ -7,10 +7,12 @@
     <li class="nav-item d-none d-sm-inline-block">
       <a href="<?php echo base_url(); ?>" class="nav-link">Home</a>
     </li>
-    <?php if(!$this->session->userdata("antrian_login")) : ?>
+    <?php if(!$this->session->userdata("antrian_login") || $this->session->userdata("antrian_role")=="petugas")  : ?>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="<?php echo base_url('jadwal/ambil_antrian'); ?>" class="nav-link">Ambil Antrian</a>
-      </li>
+      </li>      
+    <?php endif; ?>
+    <?php if(!$this->session->userdata("antrian_login")) : ?>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="<?php echo base_url('jadwal/monitor'); ?>" class="nav-link">Monitor</a>
       </li>
@@ -30,7 +32,7 @@
     <?php endif;?>
     <?php if($this->session->userdata("antrian_role")=="operator") : ?>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="<?php echo base_url('jadwal/ruang/'); echo $this->session->userdata("antrian_ruang_sidang_id"); ?>" class="nav-link"><?php echo $this->session->userdata("ruangan"); ?></a>
+        <a href="<?php echo base_url('jadwal/ruang/'); echo $this->session->userdata("antrian_ruang_sidang_id"); ?>" class="nav-link"><?php echo $this->session->userdata("antrian_ruangan"); ?></a>
       </li>
     <?php endif; ?>
   </ul>

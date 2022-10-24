@@ -75,34 +75,47 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		      </div>
 		      <div class="modal-body" id="modal_body">
-		        <p></p>
+		        <p id="teks_konten"></p>
+				<div id="cb">
+					<?php if($this->session->userdata("antrian_role")=="petugas"): ?>
+						<div class="form-check form-check-inline">
+							<input type="checkbox" class="form-check-input" id="checkboxP" value="penggugat">
+							<label for="checkboxP" class="form-check-label">Penggugat</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input type="checkbox" class="form-check-input" id="checkboxT" value="tergugat">
+							<label for="checkboxT" class="form-check-label">Tergugat</label>
+						</div>
+					<?php endif; ?>
+				</div>
 		      </div>
 		      <div class="modal-footer justify-content-center" id="modal_footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-		        <button type="button" class="btn btn-danger" data-dismiss="modal" id="ambil_button">Ambil</button>
+		        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+		        <button type="button" class="btn btn-success" data-dismiss="modal" id="ambil_button">Ambil</button>
 		      </div>
 		    </div>
 		  </div>
 		</div>
 	</div>
 	<!-- jQuery -->
-	<script src="<?php echo base_url('asset/js/jquery/jquery.min.js') ?>"></script>
+	<script src="<?php echo base_url('asset/js/jquery/jquery.min.js'); ?>"></script>
 	<!-- Bootstrap 4 -->
-	<script src="<?php echo base_url('asset/js/bootstrap/bootstrap.bundle.min.js') ?>"></script>
+	<script src="<?php echo base_url('asset/js/bootstrap/bootstrap.bundle.min.js'); ?>"></script>
 	<!-- AdminLTE App -->
-	<script src="<?php echo base_url('asset/dist/js/adminlte.min.js') ?>"></script>
+	<script src="<?php echo base_url('asset/dist/js/adminlte.min.js'); ?>"></script>
 	<!-- datatables -->
-	<script src="<?php echo base_url('asset/plugin/datatables/jquery.dataTables.min.js') ?>"></script>
-	<script src="<?php echo base_url('asset/plugin/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
-	<script src="<?php echo base_url('asset/plugin/datatables-responsive/js/dataTables.responsive.min.js') ?>"></script>
-	<script src="<?php echo base_url('asset/plugin/datatables-responsive/js/responsive.bootstrap4.min.js') ?>"></script>
-	<?php $this->load->view("_partials/token.php") ?>
+	<script src="<?php echo base_url('asset/plugin/datatables/jquery.dataTables.min.js'); ?>"></script>
+	<script src="<?php echo base_url('asset/plugin/datatables-bs4/js/dataTables.bootstrap4.min.js'); ?>"></script>
+	<script src="<?php echo base_url('asset/plugin/datatables-responsive/js/dataTables.responsive.min.js'); ?>"></script>
+	<script src="<?php echo base_url('asset/plugin/datatables-responsive/js/responsive.bootstrap4.min.js'); ?>"></script>
+	<?php $this->load->view("_partials/token.php"); ?>
 	<script type="text/javascript">
 		<?php 
 			$this->config->load('antrian_config',TRUE);
-			$print = $this->config->item('print','antrian_config');
+			$print = $this->config->item('print','antrian_config');			
 		 ?>
 		const printable = "<?php echo $print; ?>";
+		const isPetugas = <?php echo ($this->session->userdata("antrian_role")=="petugas") ? "true" : "false";  ?>;
 		
 	</script>
 	<script src="<?php echo base_url('asset/js/view/ambil.min.js'); ?>"></script>

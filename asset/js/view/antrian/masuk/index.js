@@ -455,10 +455,13 @@ $(document).ready(function() {
                 render: function(data, type, row, meta) {
                     return "<a href='#' class='btn btn-danger deleteButton'><i class='fas fa-trash'></i>Hapus</a>";
                 }
+            },
+            {
+                data: "pihak_hadir"
             }
         ],
         columnDefs: [{
-                targets: [0, 7, 8, 9],
+                targets: [0, 7, 8, 9,12],
                 visible: false,
             },
             {
@@ -473,6 +476,19 @@ $(document).ready(function() {
         createdRow: function(row, data, index) {
             if (data['status'] == "masuk") {
                 $(row).addClass('bg-lime');
+            }
+            if(data['pihak_hadir'] == 'p')
+            {
+                $('td:eq(3)',$(row)).addClass('bg-primary');
+            }
+            else if(data['pihak_hadir'] == 't')
+            {
+                $('td:eq(4)',$(row)).addClass('bg-primary');
+            }
+            else
+            {
+                $('td:eq(3)',$(row)).addClass('bg-primary');
+                $('td:eq(4)',$(row)).addClass('bg-primary');
             }
         },
         responsive: true,

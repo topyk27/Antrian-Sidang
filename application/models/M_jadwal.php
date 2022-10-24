@@ -18,6 +18,8 @@ class M_jadwal extends CI_Model
 	public $jadwal_sidang;
 	public $ruang_sidang;
 	public $status;
+	public $datang;
+	public $pihak_hadir;
 
 	public function __construct()
 	{
@@ -69,17 +71,24 @@ class M_jadwal extends CI_Model
 		return $query->result();
 	}
 
-	public function getByToday()
+	public function getByToday($isPetugas = false)
 	{
 		// return $this->db->get_where($this->table,["jadwal_sidang"=>date("Y-m-d")]);
 		$hari_ini = date("Y-m-d");
 		// $hari_ini = "2022-07-04";
 		$db_sipp = $this->config->item('database_sipp','antrian_config');
+		if($isPetugas)
+		{
+			$statement = "SELECT pj.perkara_id id, p.nomor_perkara perkara, pj.ruangan_id ruang_sidang_id, pj.ruangan ruang, p.pihak1_text penggugat, p.pihak2_text tergugat, pj.tanggal_sidang tanggal_sidang, pj.agenda agenda FROM $db_sipp.perkara_jadwal_sidang AS pj, $db_sipp.perkara AS p WHERE pj.tanggal_sidang='$hari_ini' AND pj.perkara_id=p.perkara_id AND pj.perkara_id NOT IN (SELECT perkara_id FROM jadwal WHERE jadwal_sidang='$hari_ini' AND datang=1)";
+		}
+		else
+		{
 		$statement = "SELECT pj.perkara_id id, p.nomor_perkara perkara, pj.ruangan_id ruang_sidang_id, pj.ruangan ruang, p.pihak1_text penggugat, p.pihak2_text tergugat, pj.tanggal_sidang tanggal_sidang, pj.agenda agenda
 		FROM $db_sipp.perkara_jadwal_sidang AS pj, $db_sipp.perkara AS p
 		WHERE pj.tanggal_sidang='$hari_ini'
 		AND pj.perkara_id=p.perkara_id
 		AND pj.perkara_id NOT IN (SELECT perkara_id FROM jadwal WHERE jadwal_sidang='$hari_ini')";
+		}
 		$query = $this->db->query($statement);
 		// print_r($this->db->last_query());
 		return $query->result();
@@ -121,21 +130,53 @@ class M_jadwal extends CI_Model
 	public function insert_antrian()
 	{
 		$post = $this->input->post();
-		$this->perkara_id = $post['perkara_id'];
-		$this->perkara = $post['perkara'];
-		$this->penggugat = $post['penggugat'];
-		$this->tergugat = $post['tergugat'];
-		$this->jadwal_sidang = $post['jadwal_sidang'];
-		$this->agenda = $post['agenda'];
-		$this->ruang_sidang_id = $post['ruang_sidang_id'];
-		$this->ruang_sidang = $post['ruang_sidang'];
-		$this->status = "belum";
-		$this->no_antrian = $this->get_no_antrian($this->ruang_sidang_id, $this->jadwal_sidang);
-		$this->db->insert($this->table,$this);
-		$respon['success'] = $this->db->affected_rows();
-		$respon['no_antrian'] = $this->no_antrian;
-		$respon['ruang_sidang'] = $this->ruang_sidang;
+		$yang_hadir = $post['yang_hadir'];
+		if($yang_hadir=="entahlah")
+		{
+			$this->datang = 0;			
+		}
+		else
+		{
+			$this->datang = 1;
+		}
+		$udah_masuk = $this->cek_udah_masuk_antrian($post['perkara_id'],$post['jadwal_sidang']);
+		if( $udah_masuk != 0)
+		{
+			$statement = "UPDATE jadwal SET datang=1,pihak_hadir='$yang_hadir' WHERE id=$udah_masuk";
+			$this->db->query($statement);
+			$respon['success'] = $this->db->affected_rows();
+			$statement1 = "SELECT no_antrian, ruang_sidang FROM jadwal WHERE id=$udah_masuk";
+			$query1 = $this->db->query($statement1);
+			$respon['no_antrian'] = $query1->row()->no_antrian;
+			$respon['ruang_sidang'] = $query1->row()->ruang_sidang;
+		}
+		else
+		{
+			$this->perkara_id = $post['perkara_id'];
+			$this->perkara = $post['perkara'];
+			$this->penggugat = $post['penggugat'];
+			$this->tergugat = $post['tergugat'];
+			$this->jadwal_sidang = $post['jadwal_sidang'];
+			$this->agenda = $post['agenda'];
+			$this->ruang_sidang_id = $post['ruang_sidang_id'];
+			$this->ruang_sidang = $post['ruang_sidang'];
+			$this->status = "belum";		
+			$this->pihak_hadir = $yang_hadir;
+			$this->no_antrian = $this->get_no_antrian($this->ruang_sidang_id, $this->jadwal_sidang);
+			$this->db->insert($this->table,$this);
+			$respon['success'] = $this->db->affected_rows();
+			$respon['no_antrian'] = $this->no_antrian;
+			$respon['ruang_sidang'] = $this->ruang_sidang;
+		}
 		return $respon;
+	}
+
+	public function cek_udah_masuk_antrian($perkara_id,$jadwal_sidang)
+	{
+		$statement = "SELECT id FROM jadwal WHERE perkara_id=$perkara_id AND jadwal_sidang='$jadwal_sidang' LIMIt 1";
+		$query = $this->db->query($statement);
+		$a = $query->row();
+		return (empty($a->id)) ? 0 : $a->id;
 	}
 
 	public function ubah()

@@ -20,6 +20,17 @@ function ambil(
 	ruang_sidang_id,
 	ruang_sidang
 ) {
+	let yang_hadir = "";
+	if(isPetugas)
+	{
+		yang_hadir += ($("#checkboxP").prop('checked')) ? "p" : "";
+		yang_hadir += ($("#checkboxT").prop('checked')) ? "t" : "";		
+	}
+	else
+	{
+		yang_hadir = "entahlah";
+	}
+	
 	setTimeout(() => {
 		$.ajax({
 			url: base_url + "jadwal/insert_antrian",
@@ -33,6 +44,7 @@ function ambil(
 				agenda: agenda,
 				ruang_sidang_id: ruang_sidang_id,
 				ruang_sidang: ruang_sidang,
+				yang_hadir: yang_hadir,
 			},
 			dataType: "json",
 			beforeSend: function () {
@@ -85,9 +97,10 @@ function ambil(
 									"<br>di " +
 									data.ruang_sidang
 							);
-							$("#modal_body").text(
+							$("#teks_konten").text(
 								"Silahkan menunggu nomor antrian anda dipanggil"
 							);
+							$("#cb").hide();
 							$("#modal_footer").hide();
 							// $("#ambil_modal").modal({backdrop: 'static', keyboard: false});
 							$("#ambil_modal").modal("show");
@@ -155,10 +168,15 @@ function cetak(no_antrian, perkara, jadwal, ruang) {
 }
 $(document).ready(function () {
 	$("#sidebar_ambil_antrian").addClass("active");
+	let link = "jadwal/ambil_antrian_hari_ini";
+	if(isPetugas)
+	{
+		link += "/petugas";
+	}
 	dt_antrian = $("#dt_antrian").DataTable({
 		order: [[1, "asc"]],
 		ajax: {
-			url: base_url + "jadwal/ambil_antrian_hari_ini",
+			url: base_url + link,
 			dataSrc: "data_jadwal",
 		},
 		columns: [
@@ -201,8 +219,7 @@ $(document).ready(function () {
 			let perkara = data["perkara"];
 			let p = data["penggugat"];
 			p = replaceApos(p);
-			let t = data["tergugat"];
-			console.log(t + "ini data t");
+			let t = data["tergugat"];			
 			if (t == null) {
 				t = "";
 			} else {
@@ -214,10 +231,17 @@ $(document).ready(function () {
 			let ruang = data["ruang"];
 			$("#modal_title").html("Ambil antrian");
 			$("#ambil_modal").modal({ backdrop: "static", keyboard: false });
+			if(isPetugas)
+			{
+				$("#cb").show();
+				$("#checkboxP").prop("checked",false);
+				$("#checkboxT").prop("checked",false);
+				$("#ambil_button").hide();
+			}
 			$("#modal_footer").show();
 			if (data["tergugat"]) {
 				$("#ambil_modal")
-					.find(".modal-body")
+					.find("#teks_konten")
 					.html(
 						"<p>Ambil antrian nomor perkara " +
 							data["perkara"] +
@@ -228,7 +252,7 @@ $(document).ready(function () {
 					);
 			} else {
 				$("#ambil_modal")
-					.find(".modal-body")
+					.find("#teks_konten")
 					.html(
 						"<p>Ambil antrian nomor perkara " +
 							data["perkara"] +
@@ -267,6 +291,30 @@ $(document).ready(function () {
 	setInterval(function () {
 		dt_antrian.ajax.reload(null, false);
 	}, 30000);
+
+	if(isPetugas)
+	{
+		$("#checkboxP").change(function(){
+			if(!$(this).prop('checked') && !$("#checkboxT").prop('checked'))
+			{
+				$("#ambil_button").hide();
+			}
+			else
+			{
+				$("#ambil_button").show();
+			}
+		});
+		$("#checkboxT").change(function(){
+			if(!$(this).prop('checked') && !$("#checkboxP").prop('checked'))
+			{
+				$("#ambil_button").hide();
+			}
+			else
+			{
+				$("#ambil_button").show();
+			}
+		});
+	}
 });
 
 const replaceApos = (text) => {

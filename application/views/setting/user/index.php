@@ -36,7 +36,7 @@
 							<a href="<?php echo base_url('setting/user_tambah') ?>" class="btn btn-block bg-gradient-primary">
 								<i class="fas fa-plus"></i> Tambah
 							</a>
-						</div>
+						</div>						
 					</div>	
 					<div class="row mb-2">
 						<div class="col-md-12" id="respon"></div>
@@ -114,6 +114,6 @@
 		<?php endif; ?>
 		const base_url = "<?php echo base_url(); ?>";		
 	</script>
-	<script src="<?php echo base_url('asset/js/view/setting/user/index.min.js') ?>"></script>
+	<script src="<?php echo base_url('asset/js/view/setting/user/index.min.js'); ?>"></script>
 </body>
 </html>

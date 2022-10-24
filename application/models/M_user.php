@@ -109,7 +109,7 @@ class M_user extends CI_Model
 			{
 				$data_ruangan = $this->M_jadwal->getRuangan();
 				$data['antrian_list_ruangan'] = $data_ruangan;
-			}
+			}			
 			$this->session->set_userdata($data);
 			return true;
 		}

@@ -8,13 +8,15 @@
         <p>Home</p>
       </a>
     </li>
-    <?php if(!$this->session->userdata("antrian_login")) : ?>
+    <?php if(!$this->session->userdata("antrian_login") || $this->session->userdata("antrian_role")=="petugas") : ?>
       <li class="nav-item">
         <a href="<?php echo base_url('jadwal/ambil_antrian'); ?>" class="nav-link" id="sidebar_ambil_antrian">
           <i class="nav-icon fas fa-list"></i>
           <p>Ambil Antrian</p>
         </a>
-      </li>
+      </li>    
+    <?php endif; ?>
+    <?php if(!$this->session->userdata("antrian_login")) : ?>
       <li class="nav-item">
         <a href="<?php echo base_url('jadwal/monitor'); ?>" class="nav-link" id="sidebar_monitor">
           <i class="nav-icon fas fa-desktop"></i>
