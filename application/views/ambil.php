@@ -35,7 +35,7 @@
 			<section class="content">
 				<div class="container-fluid">
 					<div class="row-mb-3">
-						<p>Untung mengambil antrian silahkan klik data nomor perkara</p>
+						<p>Untuk mengambil antrian silahkan klik data nomor perkara</p>
 					</div>
 					<div class="row">
 						<div class="col-md-12">

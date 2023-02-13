@@ -1,9 +1,9 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['version']='1.1.1';
-// $config['database_sipp']='sipp';
-$config['database_sipp']='rkYJiHGEL7'; //testing
+$config['version']='1.1.2';
+$config['database_sipp']='sipp';
+// $config['database_sipp']='rkYJiHGEL7'; //testing
 $config['panggil']= 'luar'; // luar | pc
 //luar = pc monitor yang berbunyi
 //pc = pc ruang sidang yang berbunyi

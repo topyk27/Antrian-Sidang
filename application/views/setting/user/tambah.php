@@ -66,6 +66,7 @@
 												<?php foreach($ruangan as $key=>$val): ?>
 													<option value="<?php echo $val->id.'#'.$val->nama; ?>"><?php echo $val->nama; ?></option>
 												<?php endforeach; ?>
+												<option value="0#Petugas Sidang">Petugas Sidang</option>
 											</select>
 											<div class="invalid-feedback">
 												<?php echo form_error('ruangan'); ?>

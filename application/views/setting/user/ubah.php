@@ -64,9 +64,13 @@
 										<div class="form-group">
 											<label for="ruangan">Ruangan</label>
 											<select class="form-control <?php echo form_error('ruangan') ? 'is-invalid' : '' ?>" name="ruangan">
+												<?php if($user->ruang_sidang_id != 0) : ?>
 												<?php foreach($ruangan as $key=>$val): ?>
 													<option value="<?php echo $val->id.'#'.$val->nama; ?>" <?php if($user->ruang_sidang_id == $val->id) { echo set_select('ruangan',$val->id.'#'.$val->nama,TRUE); } ?>><?php echo $val->nama; ?></option>
 												<?php endforeach; ?>
+												<?php else: ?>
+													<option value="0#Petugas Sidang" <?php if($user->ruang_sidang_id == 0) {echo set_select('ruangan','0#Petugas Sidang',TRUE);} ?>>Petugas Sidang</option>
+												<?php endif; ?>
 											</select>
 											<div class="invalid-feedback">
 												<?php echo form_error('ruangan'); ?>

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Tambah menu antrian yang diambil pada user petugas agar petugas mampu mengubah pihak yang hadir siapa saja
 
+## [1.1.2] - 2023-02-13
+### Added
+- Tambah user sebagai petugas
+
+### Changed
+- Ambil antrian oleh petugas apabila pihak hanya P, otomatis checkbox tercentang
+
 ## [1.1.1] - 2022-10-24
 ### Added
 - Lapor ke petugas, antrian yang tampil layar petugas semua antrian yang belum lapor. Sementara tampilan untuk pihak semua antrian yang belum diambil

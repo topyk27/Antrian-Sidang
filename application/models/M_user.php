@@ -160,13 +160,15 @@ class M_user extends CI_Model
 		$post = $this->input->post();
 		$this->username = $post['username'];
 		$this->password = hash('sha512', $post['password']);
-		$this->nama = $post['nama'];
-		$this->role = "operator";
 		$r = explode('#', $post['ruangan']);
 		$this->ruang_sidang_id = $r[0];
 		$this->ruangan = $r[1];
+		// $this->role = "operator";
+		$this->role = ($r[0] == 0) ? "petugas" : "operator";
+		$this->nama = $post['nama'];
 		$this->db->insert($this->table, $this);
-		return $this->db->affected_rows();
+		// return $this->db->affected_rows();
+		return $r[0];
 	}
 
 	public function ubah($id)

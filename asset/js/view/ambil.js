@@ -237,6 +237,13 @@ $(document).ready(function () {
 				$("#checkboxP").prop("checked",false);
 				$("#checkboxT").prop("checked",false);
 				$("#ambil_button").hide();
+				if(t == "")
+				{
+					$("#checkboxT").hide();
+					$("label[for='checkboxT']").hide();
+					$("#checkboxP").prop("checked",true);
+					$("#ambil_button").show();
+				}
 			}
 			$("#modal_footer").show();
 			if (data["tergugat"]) {
