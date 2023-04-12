@@ -243,7 +243,8 @@ class M_jadwal extends CI_Model
 		$id = $post['id'];
 		$statement = "SELECT id FROM panggilan WHERE id='$id'";
 		$query = $this->db->query($statement);
-		return (!empty($query->result())) ? "belum" : "sudah";
+		return $query->num_rows() > 0 ? "belum" : "sudah";
+		// return (!empty($query->result())) ? "belum" : "sudah";
 	}
 
 	public function panggil()
