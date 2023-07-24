@@ -18,6 +18,10 @@
 	<div class="wrapper">
 		<?php $this->load->view("_partials/navbar.php") ?>
 		<?php $this->load->view("_partials/sidebar_container.php") ?>
+		<?php
+			$this->config->load('antrian_config', TRUE);			
+			$saksiPisah = $this->config->item('saksiPisah', 'antrian_config');
+		?>
 		<div class="content-wrapper">
 			<section class="content-header">
 				<div class="container-fluid">
@@ -194,7 +198,7 @@
 		<?php
 		$this->config->load('antrian_config', TRUE);
 		$panggil = $this->config->item('panggil', 'antrian_config');
-		$rsvc = $this->config->item('rsvc', 'antrian_config');
+		$rsvc = $this->config->item('rsvc', 'antrian_config');		
 		?>		
 		var rsvc = <?php echo $rsvc; ?>;
 		var panggil_melalui = "<?php echo $panggil; ?>";
@@ -204,6 +208,7 @@
 		var ruang = "<?php echo $nama_ruangan; ?>";		
 		const nama_ruangan = "<?php echo $nama_ruangan; ?>";
 		const panggilan_sidang = "<?php echo $panggilan->sidang; ?>";
+		const saksiPisah = <?php echo $saksiPisah; ?>;
 		$(document).ready(function(){
 			<?php if ($this->session->userdata("antrian_role") == "admin") : ?>
 				$("#sidebar_ruang").addClass("active");
@@ -211,7 +216,7 @@
 			$("#sidebar_ruang_" + ruang_sidang).addClass("active");
 		});
 	</script>
-	<script src="<?php echo base_url('asset/js/view/antrian/masuk/index.min.js'); ?>"></script>
+	<script src="<?php echo base_url('asset/js/view/antrian/masuk/index.min.js?'); ?>"></script>
 
 </body>
 

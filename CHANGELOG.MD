@@ -1,8 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Known Bug]
+- Ambil antrian sebagai petugas ketika mengambil antrian permohonan, terpilih checkbox penggugat dan kemudian apabila mengambil antrian gugatan pilihan checkbox tergugat tidak muncul.
+
 ## [Unreleased]
 - Tambah menu antrian yang diambil pada user petugas agar petugas mampu mengubah pihak yang hadir siapa saja
+
+## [1.1.3] - 2023-07-24
+### Changed
+- Tombol panggil saksi P atau T dipisah
 
 ## [1.1.2] - 2023-02-13
 ### Added

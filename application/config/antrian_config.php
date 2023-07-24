@@ -1,7 +1,7 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['version']='1.1.2';
+$config['version']='1.1.3';
 $config['database_sipp']='sipp';
 // $config['database_sipp']='rkYJiHGEL7'; //testing
 $config['panggil']= 'luar'; // luar | pc
@@ -10,5 +10,6 @@ $config['panggil']= 'luar'; // luar | pc
 $config['rsvc']= 'true'; //true | false
 $config['print']='disable'; //enable | disable
 //print not tested
+$config['saksiPisah']='false';
 
  ?>
