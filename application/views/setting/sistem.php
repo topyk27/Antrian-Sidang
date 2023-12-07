@@ -65,6 +65,18 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label for="gratifikasi">Gratifikasi</label>
+										<div class="row">
+											<div class="col-md-6">
+												<textarea class="form-control" name="textgratifikasi" id="textgratifikasi" rows="3" readonly><?php echo $setting->gratifikasi; ?></textarea>
+											</div>
+											<div class="col-md-2">
+												<a href="#" id="btnGratifikasiUbah" class="btn btn-warning">Ubah</a>
+												<a href="#" id="btnGratifikasiSimpan" class="btn btn-success" style="display: none;">Simpan</a>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
 										<label for="logo">Logo</label>
 										<div class="row">
 											<form class="form-inline" method="post" enctype="multipart/form-data">
@@ -102,6 +114,6 @@
 	<script>
 		const base_url = "<?php echo base_url(); ?>";
 	</script>
-	<script src="<?php echo base_url('asset/js/view/setting/sistem.min.js') ?>"></script>
+	<script src="<?php echo base_url('asset/js/view/setting/sistem.min.js'); ?>"></script>
 </body>
 </html>

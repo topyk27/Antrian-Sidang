@@ -7,11 +7,23 @@ function myTimer()
     speechSynthesis.resume();
     myTimeout = setTimeout(myTimer, 10000);
 }
+
+const keySuara = () => {
+    let a = 0;
+    suara.map((item,key) => {
+        if(item.name === 'Google Bahasa Indonesia') {
+            a = key;
+        }
+    });
+    console.log('key suara => ',a);
+    return a;
+}
 if(rsvc==false)
 {
     setTimeout(() => {		
         suara = window.speechSynthesis.getVoices();		
-        msg.voice = suara[11];	
+        // msg.voice = suara[11];	
+        msg.voice = suara[keySuara()];	
         msg.lang = 'in-ID';
         msg.rate = 0.9;		
     }, 1000);
@@ -102,6 +114,7 @@ function panggil(id, no_antrian, perkara, penggugat, tergugat, ruang_sidang, rua
                                 clearTimeout(myTimeout);
                                 $(".loader2").hide();
                             }
+                            speechSynthesis.cancel();
                             speechSynthesis.speak(msg);
                         }
                     } else {
@@ -124,6 +137,7 @@ function panggil(id, no_antrian, perkara, penggugat, tergugat, ruang_sidang, rua
                                 clearTimeout(myTimeout);
                                 $(".loader2").hide();
                             }
+                            speechSynthesis.cancel();
                             speechSynthesis.speak(msg);
                         }
                     }
@@ -377,6 +391,7 @@ function panggil_saksi(penggugat, tergugat, ruang_sidang, no_antrian) {
                     clearTimeout(myTimeout);
                     $(".loader2").hide();
                 }
+                speechSynthesis.cancel();
                 speechSynthesis.speak(msg);
             }
         } else {
@@ -402,6 +417,7 @@ function panggil_saksi(penggugat, tergugat, ruang_sidang, no_antrian) {
                     clearTimeout(myTimeout);
                     $(".loader2").hide();
                 }
+                speechSynthesis.cancel();
                 speechSynthesis.speak(msg);
             }
         }
@@ -834,12 +850,14 @@ $(document).ready(function() {
             else
             {
                 $(".loader2").show();
+                myTimeout = setTimeout(myTimer, 10000);
                 msg.text = panggilan_security;
                 msg.onend = function(e)
                 {
                     clearTimeout(myTimeout);
                     $(".loader2").hide();
-                }						
+                }
+                speechSynthesis.cancel();
                 speechSynthesis.speak(msg);
             }
         } else {
@@ -868,12 +886,14 @@ $(document).ready(function() {
             else
             {
                 $(".loader2").show();
+                myTimeout = setTimeout(myTimer, 10000);
                 msg.text = panggilan_sidang;	
                 msg.onend = function(e)
                 {
                     clearTimeout(myTimeout);
                     $(".loader2").hide();
-                }						
+                }
+                speechSynthesis.cancel();
                 speechSynthesis.speak(msg);
             }
         } else {
@@ -910,13 +930,15 @@ $(document).ready(function() {
             else
             {
                 $(".loader2").show();
+                myTimeout = setTimeout(myTimer, 10000);
                 msg.text = isi;
                 msg.onend = function(e)
                 {
                     clearTimeout(myTimeout);
                     $(".loader2").hide();
-                }						
-                speechSynthesis.speak(msg);
+                }
+                speechSynthesis.cancel();
+                speechSynthesis.speak(msg);                
             }
         }
         else
@@ -925,4 +947,40 @@ $(document).ready(function() {
         }
     });
     // end pengumuman
+
+    // gratifikasi
+    $("#btn_gratifikasi").click(function() {
+        voice = "Indonesian Male";
+        rate = 1;
+        if (panggil_melalui == "pc") {
+            if(rsvc!=false)
+            {
+                responsiveVoice.speak(panggilan_sidang, voice, {
+                    rate: rate,
+                    onstart: function() {
+                        $(".loader2").show();
+                    },
+                    onend: function() {
+                        $(".loader2").hide();
+                    }
+                });
+            }
+            else
+            {
+                $(".loader2").show();
+                myTimeout = setTimeout(myTimer, 10000);
+                msg.text = panggilan_sidang;	
+                msg.onend = function(e)
+                {
+                    clearTimeout(myTimeout);
+                    $(".loader2").hide();
+                }
+                speechSynthesis.cancel();
+                speechSynthesis.speak(msg);
+            }
+        } else {
+            insert_panggilan(panggilan_sidang, "gratifikasi", nama_ruangan);
+        }
+    });
+    // end gratifikasi
 });

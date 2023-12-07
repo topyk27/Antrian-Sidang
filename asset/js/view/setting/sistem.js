@@ -75,4 +75,40 @@ $(document).ready(function(){
             }
         });
     });
+    $("#btnGratifikasiUbah").click(function(){
+        $("#btnGratifikasiSimpan").show();
+        $(this).hide();
+        $("textarea[name='textgratifikasi']").attr("readonly",false);
+    });
+    $("#btnGratifikasiSimpan").click(function(){
+        let data = $("textarea[name='textgratifikasi']").val();
+        $.ajax({
+            url: base_url+'setting/save_text/gratifikasi',
+            method: "POST",
+            data: {data: data},
+            dataType: "TEXT",
+            success: function(respon)
+            {
+                if(respon>0)
+                {
+                    $("#respon").html("<div class='alert alert-success' role='alert' id='responMsg'>Data berhasil diubah</div>")
+                    $("#responMsg").hide().fadeIn(200).delay(2000).fadeOut(1000, function(){$(this).remove();});
+                }
+                else
+                {
+                    $("#respon").html("<div class='alert alert-info' role='alert' id='responMsg'>Data tidak ada perubahan</div>")
+                    $("#responMsg").hide().fadeIn(200).delay(2000).fadeOut(1000, function(){$(this).remove();});
+                }
+                $("#btnGratifikasiSimpan").hide();
+                $("#btnGratifikasiUbah").show();
+                $("textarea[name='textgratifikasi']").attr("readonly",true);
+            },
+            error: function(err)
+            {
+                console.log(err);
+                $("#respon").html("<div class='alert alert-warning' role='alert' id='responMsg'>Data gagal diubah, mohon periksa jaringan internet anda.</div>")
+                $("#responMsg").hide().fadeIn(200).delay(2000).fadeOut(1000, function(){$(this).remove();});
+            }
+        });
+    });
 });

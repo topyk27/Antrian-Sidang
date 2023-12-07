@@ -53,7 +53,7 @@
                 </a>
             </div>
             <div class="col-md-10 col-lg-10 align-middle">
-                <h1 class="font-weight-normal font-italic text-center">Antrian Sidang PA <?php echo $this->session->userdata('nama_pa'); ?></h1>                
+                <h1 class="font-weight-normal font-italic text-center">Antrian Sidang PA <?php echo $this->session->userdata('nama_pa'); ?></h1>
             </div>
         </div>
         <?php
@@ -149,7 +149,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header d-block">
-                    <h1 class="modal-title text-center ganal">Antrian</h1>
+                    <h1 class="modal-title text-center ganal" id="modalTitle">Antrian</h1>
                 </div>
                 <div class="modal-body">
                     <h2 id="nmr_antrian" class="text-center ganal">999</h2>
@@ -200,10 +200,21 @@
             speechSynthesis.resume();
             myTimeout = setTimeout(myTimer, 10000);
         }
+        const keySuara = () => {
+            let a = 0;
+            suara.map((item, key) => {
+                if (item.name === 'Google Bahasa Indonesia') {
+                    a = key;
+                }
+            });
+            console.log('key suara => ', a);
+            return a;
+        }
         if (rsvc == false) {
             setTimeout(() => {
                 suara = window.speechSynthesis.getVoices();
-                msg.voice = suara[11];
+                // msg.voice = suara[11];
+                msg.voice = suara[keySuara()];
                 msg.lang = 'in-ID';
                 msg.rate = 0.9;
             }, 1000);
@@ -225,8 +236,7 @@
         }
 
         function cek_panggilan() {
-            if(!isMobile)
-            {
+            if (!isMobile) {
                 $.ajax({
                     url: base_url + 'jadwal/panggil',
                     method: "GET",
@@ -243,8 +253,18 @@
         }
 
         function memanggil_antrian(id, text, no_antrian, ruangan) {
-            $('#nmr_antrian').text(no_antrian);
-            $('#ke_ruang').text(ruangan);
+            console.log('noantrian => ', no_antrian);
+            console.log('ruangan => ', ruangan);
+            console.log(typeof(no_antrian));
+            if(no_antrian === '0') {
+                $('#modalTitle').text('');
+                $('#nmr_antrian').text('Pengumuman');
+                $('#ke_ruang').text('');
+            } else {
+                $('#modalTitle').text('Antrian');
+                $('#nmr_antrian').text(no_antrian);
+                $('#ke_ruang').text(ruangan);
+            }
             $('#modal_antrian').modal('show');
             voice = "Indonesian Male";
             rate = 1;
@@ -266,6 +286,8 @@
                     clearTimeout(myTimeout);
                     hapus_panggilan(id);
                 }
+                console.log('gas manggil');
+                speechSynthesis.cancel();
                 speechSynthesis.speak(msg);
             }
         }

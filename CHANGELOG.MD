@@ -2,10 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 ## [Known Bug]
-- Ambil antrian sebagai petugas ketika mengambil antrian permohonan, terpilih checkbox penggugat dan kemudian apabila mengambil antrian gugatan pilihan checkbox tergugat tidak muncul.
 
-## [Unreleased]
+
+## [1.1.4] - 2023-12-07
+### Added
 - Tambah menu antrian yang diambil pada user petugas agar petugas mampu mengubah pihak yang hadir siapa saja
+- Tambah tombol pengumuman anti gratifikasi
+
+### Changed
+- Fix bug ambil antrian sebagai petugas ketika mengambil antrian permohonan, terpilih checkbox penggugat dan kemudian apabila mengambil antrian gugatan pilihan checkbox tergugat tidak muncul.
 
 ## [1.1.3] - 2023-07-24
 ### Changed

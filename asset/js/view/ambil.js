@@ -234,6 +234,8 @@ $(document).ready(function () {
 			if(isPetugas)
 			{
 				$("#cb").show();
+				$("#checkboxT").show();
+				$("label[for='checkboxT']").show();
 				$("#checkboxP").prop("checked",false);
 				$("#checkboxT").prop("checked",false);
 				$("#ambil_button").hide();

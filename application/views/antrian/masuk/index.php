@@ -52,6 +52,11 @@
 								<i class="fas fa-bullhorn"></i> Pengumuman
 							</a>
 						</div>
+						<div class="col-md-2">
+							<a href="#" id="btn_gratifikasi" class="btn btn-block bg-gradient-danger">
+								<i class="fas fa-hand-holding-usd"></i> Anti Gratifikasi
+							</a>
+						</div>
 					</div>
 				</div>
 			</section>
@@ -208,6 +213,7 @@
 		var ruang = "<?php echo $nama_ruangan; ?>";		
 		const nama_ruangan = "<?php echo $nama_ruangan; ?>";
 		const panggilan_sidang = "<?php echo $panggilan->sidang; ?>";
+		const gratifikasi_sidang = "<?php echo $panggilan->gratifikasi; ?>";
 		const saksiPisah = <?php echo $saksiPisah; ?>;
 		$(document).ready(function(){
 			<?php if ($this->session->userdata("antrian_role") == "admin") : ?>
@@ -216,7 +222,7 @@
 			$("#sidebar_ruang_" + ruang_sidang).addClass("active");
 		});
 	</script>
-	<script src="<?php echo base_url('asset/js/view/antrian/masuk/index.min.js?'); ?>"></script>
+	<script src="<?php echo base_url('asset/js/view/antrian/masuk/index.min.js'); ?>"></script>
 
 </body>
 
